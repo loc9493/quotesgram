@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:quotesgram/repos/quote_repo_impl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              onPressed: () => {},
+              onPressed: () async => {await QuoteRepoImpl().getQuotes(1, 10)},
               icon: Icon(Icons.home_outlined),
             ),
             IconButton(
