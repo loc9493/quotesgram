@@ -13,7 +13,7 @@ class ApiClient {
     return client;
   }
 
-  Future<List<Quote>?> getQuotes(int page, int per_page) async {
+  Future<List<Quote>> getQuotes(int page, int per_page) async {
     var url = Uri.http(baseUrl, "quote/quotes",
         {'page': page.toString(), 'per_page': per_page.toString()});
     var response = await apiClient.get(url);
@@ -23,10 +23,10 @@ class ApiClient {
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
-    return null;
+    return [];
   }
 
-  Future<List<Author>?> getAuthors() async {
+  Future<List<Author>> getAuthors() async {
     var url = Uri.http(
       baseUrl,
       "quote/authors",
@@ -38,13 +38,13 @@ class ApiClient {
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
-    return null;
+    return [];
   }
 
-  Future<List<Category>?> getCategories() async {
+  Future<List<Category>> getCategories() async {
     var url = Uri.http(
       baseUrl,
-      "quote/authors",
+      "quote/category",
     );
     var response = await apiClient.get(url);
     if (response.statusCode == 200) {
@@ -53,6 +53,6 @@ class ApiClient {
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
-    return null;
+    return [];
   }
 }
