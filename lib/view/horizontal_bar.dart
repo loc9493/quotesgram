@@ -11,7 +11,7 @@ class HorizontalBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final categories = Provider.of<QuoteViewModel>(context).categories;
     return Container(
-      height: 50,
+      height: 60,
       child: ListView.builder(
         itemCount: categories.length,
         padding: EdgeInsets.all(10),

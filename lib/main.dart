@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:quotesgram/repos/quote_repo_impl.dart';
+import 'package:quotesgram/utils/Constant.dart';
 import 'package:quotesgram/view/card_holder.dart';
 import 'package:quotesgram/view/horizontal_bar.dart';
 import 'package:quotesgram/view/quote_card.dart';
@@ -23,12 +24,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-            appBarTheme: AppBarTheme(color: Color(0xff000957)),
-            scaffoldBackgroundColor: Color(0xff000957),
+            appBarTheme: AppBarTheme(color: Constant.ColorBackground),
+            scaffoldBackgroundColor: Constant.ColorBackground,
             iconTheme: IconThemeData(color: Colors.white),
             bottomAppBarTheme: BottomAppBarTheme(
               elevation: 10,
-              color: Color(0xff000957),
+              color: Constant.ColorBackground,
             )),
         home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
@@ -46,6 +47,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var vm = Provider.of<QuoteViewModel>(context);
     return Scaffold(
@@ -54,19 +60,27 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              onPressed: () => {vm.getCategories()},
+              onPressed: () => {vm.setSelectedTab(0)},
+              color:
+                  vm.selectedTab == 0 ? Constant.ColorHightLight : Colors.white,
               icon: Icon(Icons.home_outlined),
             ),
             IconButton(
-              onPressed: () => {},
+              onPressed: () => {vm.setSelectedTab(1)},
+              color:
+                  vm.selectedTab == 1 ? Constant.ColorHightLight : Colors.white,
               icon: Icon(Icons.search_outlined),
             ),
             IconButton(
-              onPressed: () => {},
+              onPressed: () => {vm.setSelectedTab(2)},
+              color:
+                  vm.selectedTab == 2 ? Constant.ColorHightLight : Colors.white,
               icon: Icon(Icons.person_outline),
             ),
             IconButton(
-              onPressed: () => {},
+              onPressed: () => {vm.setSelectedTab(3)},
+              color:
+                  vm.selectedTab == 3 ? Constant.ColorHightLight : Colors.white,
               icon: Icon(Icons.more_horiz_outlined),
             )
           ],
@@ -76,9 +90,18 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: false,
         title: const Text('Quotesgram', textAlign: TextAlign.center),
         actions: [
-          IconButton(onPressed: () => {}, icon: const Icon(Icons.menu_rounded)),
           IconButton(
-              onPressed: () => {}, icon: const Icon(Icons.grid_view_rounded))
+              color: vm.viewMode == ViewMode.ListView
+                  ? Constant.ColorHightLight
+                  : Colors.white,
+              onPressed: () => {vm.setViewMode(ViewMode.ListView)},
+              icon: const Icon(Icons.menu_rounded)),
+          IconButton(
+              color: vm.viewMode == ViewMode.CardView
+                  ? Constant.ColorHightLight
+                  : Colors.white,
+              onPressed: () => {vm.setViewMode(ViewMode.CardView)},
+              icon: const Icon(Icons.grid_view_rounded))
         ],
       ),
       body: Column(
