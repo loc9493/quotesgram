@@ -2,6 +2,7 @@ import 'package:quotesgram/data/api/api_client.dart';
 import 'package:quotesgram/models/quote.dart';
 import 'package:quotesgram/models/category.dart';
 import 'package:quotesgram/models/author.dart';
+import 'package:quotesgram/models/wallpaper.dart';
 import 'package:quotesgram/repos/quote_repo.dart';
 
 class QuoteRepoImpl with QuoteRepo {
@@ -41,5 +42,11 @@ class QuoteRepoImpl with QuoteRepo {
       int page, int per_page, String term) {
     // TODO: implement getQuotesBySearchTerm
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Wallpaper?> getWallpaper() async {
+    var result = await ApiClient.client.getWallpaper();
+    return result;
   }
 }

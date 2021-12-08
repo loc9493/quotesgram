@@ -2,12 +2,17 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:quotesgram/models/quote.dart';
+import 'package:quotesgram/view_model/quote_view_model.dart';
 
 class QuoteCard extends StatelessWidget {
-  const QuoteCard({Key? key}) : super(key: key);
-
+  const QuoteCard({Key? key, required this.quote}) : super(key: key);
+  final Quote quote;
   @override
   Widget build(BuildContext context) {
+    // var vm = Provider.of<QuoteViewModel>(context);
+    // vm.getWallpapers();
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.yellow,
@@ -29,7 +34,8 @@ class QuoteCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Chúa thỉnh thoảng lại tạo nên điều kỳ diệu; Nhìn kìa, một luật sư, con người trung thực.\nGod works wonders now and then; Behold a lawyer, an honest man.",
+                      quote.content ?? "",
+                      maxLines: 10,
                       style: TextStyle(
                         fontSize: 25,
                         color: Colors.white,
@@ -40,7 +46,7 @@ class QuoteCard extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 18.0),
                           child: Text(
-                            "- Benjamin Franklin",
+                            "- " + quote.authorName(),
                             style: TextStyle(fontSize: 15, color: Colors.white),
                           ),
                         ),

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:quotesgram/models/category.dart';
 import 'package:quotesgram/models/quote.dart';
 import 'package:quotesgram/models/author.dart';
+import 'package:quotesgram/models/wallpaper.dart';
 
 abstract class QuoteRepo {
   Future<List<Quote>> getQuotes(int page, int per_page);
@@ -12,5 +13,6 @@ abstract class QuoteRepo {
   Future<List<Quote>> getQuotesBySearchTerm(
       int page, int per_page, String term);
   Future<List<Author>> getAuthors();
+  Future<Wallpaper?> getWallpaper();
   Future<List<Category>> getCategories();
 }

@@ -4,6 +4,8 @@ import 'package:quotesgram/models/category.dart';
 import 'package:quotesgram/models/quote.dart';
 import 'dart:convert' as convert;
 
+import 'package:quotesgram/models/wallpaper.dart';
+
 class ApiClient {
   static const baseUrl = "localhost:1337";
   static var client = ApiClient();
@@ -25,6 +27,22 @@ class ApiClient {
     }
     return [];
   }
+
+  Future<Wallpaper?> getWallpaper() async {
+    var url = Uri.http(
+        "https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=zh-CN",
+        "");
+    var response = await apiClient.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      return jsonResponse.map((e) => Wallpaper.fromJson(e));
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    return null;
+  }
+
+  // https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=zh-CN
 
   Future<List<Author>> getAuthors() async {
     var url = Uri.http(
