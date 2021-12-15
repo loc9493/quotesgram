@@ -28,18 +28,19 @@ class ApiClient {
     return [];
   }
 
-  Future<Wallpaper?> getWallpaper() async {
+  Future<List<Wallpaper>> getWallpaper() async {
     var url = Uri.http(
-        "https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=zh-CN",
-        "");
+      baseUrl,
+      "wallpaper/wallpapers",
+    );
     var response = await apiClient.get(url);
     if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      return jsonResponse.map((e) => Wallpaper.fromJson(e));
+      var jsonResponse = convert.jsonDecode(response.body) as List<dynamic>;
+      return jsonResponse.map((e) => Wallpaper.fromJson(e)).toList();
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
-    return null;
+    return [];
   }
 
   // https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=zh-CN

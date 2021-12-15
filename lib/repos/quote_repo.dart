@@ -13,6 +13,6 @@ abstract class QuoteRepo {
   Future<List<Quote>> getQuotesBySearchTerm(
       int page, int per_page, String term);
   Future<List<Author>> getAuthors();
-  Future<Wallpaper?> getWallpaper();
+  Future<List<Wallpaper>> getWallpapers();
   Future<List<Category>> getCategories();
 }

@@ -45,7 +45,7 @@ class QuoteRepoImpl with QuoteRepo {
   }
 
   @override
-  Future<Wallpaper?> getWallpaper() async {
+  Future<List<Wallpaper>> getWallpapers() async {
     var result = await ApiClient.client.getWallpaper();
     return result;
   }

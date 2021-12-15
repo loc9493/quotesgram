@@ -11,6 +11,7 @@ class QuoteViewModel with ChangeNotifier {
   List<Quote> quotes = [];
   List<Author> authors = [];
   List<Category> categories = [];
+  List<Wallpaper> wallpapers = [];
   Wallpaper? wallpaper;
   ViewMode viewMode = ViewMode.ListView;
   int selectedTab = 0;
@@ -27,6 +28,11 @@ class QuoteViewModel with ChangeNotifier {
 
   setIsLoading(bool loading) {
     isLoading = loading;
+    notifyListeners();
+  }
+
+  setWallpaper(Wallpaper wallpaper) {
+    this.wallpaper = wallpaper;
     notifyListeners();
   }
 
@@ -49,9 +55,9 @@ class QuoteViewModel with ChangeNotifier {
   }
 
   getWallpapers() async {
-    var result = await QuoteRepoImpl().getWallpaper();
+    var result = await QuoteRepoImpl().getWallpapers();
     if (result != null) {
-      wallpaper = result;
+      wallpapers = result;
       notifyListeners();
     }
   }
