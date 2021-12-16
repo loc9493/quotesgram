@@ -1,10 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:quotesgram/models/quote.dart';
+import 'package:quotesgram/utils/Constant.dart';
 import 'package:quotesgram/view/bottom_bar.dart';
 import 'package:quotesgram/view/quote_card.dart';
+import 'package:quotesgram/view/text_editor.dart';
+import 'package:quotesgram/view/wallpaper_slider.dart';
 import 'package:quotesgram/view_model/quote_view_model.dart';
+import 'package:text_style_editor/text_style_editor.dart';
 
 class QuoteScreen extends StatelessWidget {
   const QuoteScreen({Key? key, required this.quote}) : super(key: key);
@@ -18,39 +23,75 @@ class QuoteScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: QuoteCard(quote: quote),
-              ),
+              child: QuoteCard(quote: quote),
             ),
             Container(
-              height: 50,
-              margin: EdgeInsets.only(top: 20),
-              child: ListView.builder(
+              child: SizedBox(
+                height: 150,
+                child: GridView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: vm.wallpapers.length,
-                  itemBuilder: (context, index) => InkWell(
-                        onTap: () => {vm.setWallpaper(vm.wallpapers[index])},
-                        child: Container(
-                          height: 50,
-                          width: 100,
-                          child: Center(
-                              child: CachedNetworkImage(
-                            imageUrl: vm.wallpapers[index].url(),
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          )),
-                        ),
+                  itemCount: Constant.CardConfigs.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1),
+                  itemBuilder: (context, index) => Container(
+                      margin: const EdgeInsets.all(8),
+                      child: InkWell(
+                        onTap: () => {
+                          handleCardConfig(
+                              Constant.CardConfigs[index], context, vm)
+                        },
+                        child: Card(
+                            color: Constant.Persian,
+                            elevation: 10,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Constant.CardConfigIcon(
+                                    Constant.CardConfigs[index]),
+                                Text(
+                                  Constant.CardConfigTitle(
+                                      Constant.CardConfigs[index]),
+                                  style: const TextStyle(
+                                      color: Constant.Crayola,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            )),
                       )),
-            )
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  handleCardConfig(CardConfig config, BuildContext context, QuoteViewModel vm) {
+    Widget? widget = null;
+    switch (config) {
+      case CardConfig.Wallpaper:
+        widget = WallpaperSlider(vm: vm);
+        break;
+      case CardConfig.Save:
+        break;
+      case CardConfig.AuthorText:
+      case CardConfig.ContentText:
+        widget = TextEditor(
+          config: config,
+        );
+        break;
+      default:
+    }
+    if (widget != null) {
+      showBottomSheet(
+          context: context,
+          builder: (context) => Container(
+                padding: const EdgeInsets.all(10),
+                color: Constant.ColorBackground,
+                child: widget,
+              ));
+    }
   }
 }

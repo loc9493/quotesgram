@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quotesgram/models/author.dart';
 import 'package:quotesgram/models/category.dart';
 import 'package:quotesgram/models/quote.dart';
 import 'package:quotesgram/models/wallpaper.dart';
 import 'package:quotesgram/repos/quote_repo_impl.dart';
+import 'package:quotesgram/utils/Constant.dart';
 
 enum ViewMode { CardView, ListView }
 
@@ -16,6 +18,10 @@ class QuoteViewModel with ChangeNotifier {
   ViewMode viewMode = ViewMode.ListView;
   int selectedTab = 0;
   bool isLoading = false;
+  TextStyle contentStyle = const TextStyle(fontSize: 25, color: Colors.white);
+  TextStyle authorStyle = const TextStyle(fontSize: 18, color: Colors.white);
+  TextAlign contentAlign = TextAlign.center;
+  TextAlign authorAlign = TextAlign.center;
   setViewMode(ViewMode mode) {
     viewMode = mode;
     notifyListeners();
@@ -33,6 +39,68 @@ class QuoteViewModel with ChangeNotifier {
 
   setWallpaper(Wallpaper wallpaper) {
     this.wallpaper = wallpaper;
+    notifyListeners();
+  }
+
+  setContentStyle(TextStyle style) {
+    contentStyle = contentStyle.merge(style);
+    notifyListeners();
+  }
+
+  TextStyle getStyleForConfig(CardConfig config) {
+    switch (config) {
+      case CardConfig.AuthorText:
+        return authorStyle;
+      case CardConfig.ContentText:
+        return contentStyle;
+      default:
+        return const TextStyle();
+    }
+  }
+
+  TextAlign getAlignForConfig(CardConfig config) {
+    switch (config) {
+      case CardConfig.AuthorText:
+        return authorAlign;
+      case CardConfig.ContentText:
+        return contentAlign;
+      default:
+        return TextAlign.center;
+    }
+  }
+
+  Function? getUpdateStyleFunctionForConfig(CardConfig config) {
+    switch (config) {
+      case CardConfig.AuthorText:
+        return setAuthorStyle;
+      case CardConfig.ContentText:
+        return setContentStyle;
+      default:
+    }
+  }
+
+  Function? getUpdateAlginFunctionForConfig(CardConfig config) {
+    switch (config) {
+      case CardConfig.AuthorText:
+        return setAuthorAlign;
+      case CardConfig.ContentText:
+        return setContentAlign;
+      default:
+    }
+  }
+
+  setAuthorStyle(TextStyle style) {
+    authorStyle = authorStyle.merge(style);
+    notifyListeners();
+  }
+
+  setContentAlign(TextAlign align) {
+    contentAlign = align;
+    notifyListeners();
+  }
+
+  setAuthorAlign(TextAlign align) {
+    authorAlign = align;
     notifyListeners();
   }
 

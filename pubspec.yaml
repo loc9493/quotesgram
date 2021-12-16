@@ -41,6 +41,10 @@ dependencies:
   firebase_core: ^1.10.5
   firebase_auth: ^3.3.3
   cached_network_image: ^3.2.0
+  text_style_editor: ^1.1.1
+  google_fonts: ^2.1.0
+  gallery_saver: ^2.3.2
+  fluttertoast: ^8.0.8
 
 
 dev_dependencies:

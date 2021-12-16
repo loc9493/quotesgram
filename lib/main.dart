@@ -42,6 +42,9 @@ class MyApp extends StatelessWidget {
             appBarTheme: AppBarTheme(color: Constant.ColorBackground),
             scaffoldBackgroundColor: Constant.ColorBackground,
             iconTheme: IconThemeData(color: Colors.white),
+            textTheme: TextTheme(
+                headline5: TextStyle(color: Colors.white),
+                subtitle2: TextStyle(color: Colors.white)),
             bottomAppBarTheme: BottomAppBarTheme(
               elevation: 10,
               color: Constant.ColorBackground,

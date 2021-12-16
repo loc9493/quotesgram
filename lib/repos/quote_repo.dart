@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:quotesgram/models/category.dart';
 import 'package:quotesgram/models/quote.dart';
 import 'package:quotesgram/models/author.dart';
