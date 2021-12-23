@@ -15,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:share_plus/share_plus.dart';
 
 class QuoteCard extends StatefulWidget {
   const QuoteCard({
@@ -30,7 +31,7 @@ class QuoteCard extends StatefulWidget {
 class _QuoteCardState extends State<QuoteCard> {
   final GlobalKey genKey = GlobalKey();
 
-  Future<void> _capturePng() async {
+  Future<void> _capturePng(bool isShare) async {
     RenderRepaintBoundary? boundary =
         genKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
     if (boundary != null) {
@@ -43,26 +44,29 @@ class _QuoteCardState extends State<QuoteCard> {
 
         File imgFile = File('$directory/${widget.quote.id}.png');
         await imgFile.writeAsBytes(pngBytes);
-        print(imgFile);
-        var result = await GallerySaver.saveImage(imgFile.path);
-        if (result != null && result == true) {
-          Fluttertoast.showToast(
-              msg: "Saved to library",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Constant.Persian,
-              textColor: Colors.white,
-              fontSize: 16.0);
+        if (!isShare) {
+          var result = await GallerySaver.saveImage(imgFile.path);
+          if (result != null && result == true) {
+            Fluttertoast.showToast(
+                msg: "Saved to library",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Constant.Persian,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          } else {
+            Fluttertoast.showToast(
+                msg: "Cannot save this file",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0);
+          }
         } else {
-          Fluttertoast.showToast(
-              msg: "Cannot save this file",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0);
+          Share.shareFiles([imgFile.path]);
         }
       }
     }
@@ -102,7 +106,8 @@ class _QuoteCardState extends State<QuoteCard> {
                               left: 0,
                               right: 0,
                               child: Container(
-                                color: Constant.ColorBackground.withAlpha(80),
+                                color: Constant.ColorBackground.withAlpha(
+                                    vm.wallpaperOpacity.toInt()),
                                 child: null,
                               )),
                           Container(
@@ -132,10 +137,17 @@ class _QuoteCardState extends State<QuoteCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(
-                    onPressed: () => {_capturePng()},
-                    icon: const Icon(Icons.save)),
-                IconButton(onPressed: () => {}, icon: const Icon(Icons.share))
+                Material(
+                  color: Colors.transparent,
+                  child: IconButton(
+                      onPressed: () => {_capturePng(false)},
+                      icon: const Icon(Icons.save)),
+                ),
+                Material(
+                    color: Colors.transparent,
+                    child: IconButton(
+                        onPressed: () => {_capturePng(true)},
+                        icon: const Icon(Icons.share)))
               ],
             )
           ],

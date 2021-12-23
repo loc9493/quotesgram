@@ -1,21 +1,38 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quotesgram/view_model/quote_view_model.dart';
 
 class WallpaperSlider extends StatelessWidget {
   const WallpaperSlider({
     Key? key,
-    required this.vm,
   }) : super(key: key);
-
-  final QuoteViewModel vm;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    QuoteViewModel vm = Provider.of<QuoteViewModel>(context);
+    return SizedBox(
       height: 200,
       child: Column(
         children: [
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Row(
+              children: [
+                const Text("Opacity", style: TextStyle(color: Colors.white)),
+                Expanded(
+                  child: Slider(
+                    value: vm.wallpaperOpacity,
+                    divisions: 10,
+                    onChanged: (value) {
+                      vm.setWallpaperOpacity(value);
+                    },
+                    max: 100,
+                  ),
+                ),
+              ],
+            ),
+          ),
           Container(
             height: 120,
             margin: const EdgeInsets.only(top: 20),
@@ -25,6 +42,7 @@ class WallpaperSlider extends StatelessWidget {
                 itemBuilder: (context, index) => InkWell(
                       onTap: () => {vm.setWallpaper(vm.wallpapers[index])},
                       child: Container(
+                        padding: const EdgeInsets.all(10),
                         child: Center(
                             child: CachedNetworkImage(
                           imageUrl: vm.wallpapers[index].url(),

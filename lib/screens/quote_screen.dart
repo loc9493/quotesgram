@@ -72,7 +72,7 @@ class QuoteScreen extends StatelessWidget {
     Widget? widget = null;
     switch (config) {
       case CardConfig.Wallpaper:
-        widget = WallpaperSlider(vm: vm);
+        widget = WallpaperSlider();
         break;
       case CardConfig.Save:
         break;

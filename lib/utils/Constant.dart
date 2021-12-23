@@ -82,7 +82,6 @@ class Constant {
     Icon(Icons.home_filled),
     Icon(Icons.grid_goldenratio_rounded),
     Icon(Icons.search),
-    Icon(Icons.person),
     Icon(Icons.more_horiz),
   ];
 }

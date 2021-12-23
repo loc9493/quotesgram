@@ -17,6 +17,7 @@ class QuoteViewModel with ChangeNotifier {
   Wallpaper? wallpaper;
   ViewMode viewMode = ViewMode.ListView;
   int selectedTab = 0;
+  double wallpaperOpacity = 80;
   bool isLoading = false;
   TextStyle contentStyle = const TextStyle(fontSize: 25, color: Colors.white);
   TextStyle authorStyle = const TextStyle(fontSize: 18, color: Colors.white);
@@ -24,6 +25,11 @@ class QuoteViewModel with ChangeNotifier {
   TextAlign authorAlign = TextAlign.center;
   setViewMode(ViewMode mode) {
     viewMode = mode;
+    notifyListeners();
+  }
+
+  setWallpaperOpacity(double value) {
+    wallpaperOpacity = value;
     notifyListeners();
   }
 
