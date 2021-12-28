@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[HorizontalBar(), Expanded(child: CardHolder())],
+      children: <Widget>[Expanded(child: CardHolder())],
     );
   }
 }

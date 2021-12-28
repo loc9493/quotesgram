@@ -13,6 +13,7 @@ import 'package:quotesgram/view/bottom_bar.dart';
 import 'package:quotesgram/view/card_holder.dart';
 import 'package:quotesgram/view/horizontal_bar.dart';
 import 'package:quotesgram/view/quote_card.dart';
+import 'package:quotesgram/view_model/category_view_model.dart';
 import 'package:quotesgram/view_model/quote_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quotesgram/view_model/user_view_model.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => QuoteViewModel()),
+        ChangeNotifierProvider(create: (context) => CategoryViewModel()),
         ChangeNotifierProvider(create: (context) => UserViewModel()),
       ],
       child: MaterialApp(
@@ -91,20 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         centerTitle: false,
         title: const Text('Quotesgram', textAlign: TextAlign.center),
-        actions: [
-          IconButton(
-              color: vm.viewMode == ViewMode.ListView
-                  ? Constant.ColorHightLight
-                  : Colors.white,
-              onPressed: () => {vm.setViewMode(ViewMode.ListView)},
-              icon: const Icon(Icons.menu_rounded)),
-          IconButton(
-              color: vm.viewMode == ViewMode.CardView
-                  ? Constant.ColorHightLight
-                  : Colors.white,
-              onPressed: () => {vm.setViewMode(ViewMode.CardView)},
-              icon: const Icon(Icons.grid_view_rounded))
-        ],
+        actions: [],
       ),
       body: screens[vm.selectedTab],
     );

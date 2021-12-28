@@ -75,8 +75,7 @@ class _QuoteCardState extends State<QuoteCard> {
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<QuoteViewModel>(context);
-    var wallpaper = vm.wallpaper?.url() ??
-        "https://images.unsplash.com/photo-1497704628914-8772bb97f450?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MnwxMDcxMTcwfHxlbnwwfHx8fA%3D%3D&w=1000&q=80";
+    var wallpaper = vm.wallpaper?.url() ?? Constant.defaultWallpaperUrl;
     return Hero(
       tag: widget.quote.id ?? 0,
       child: Padding(

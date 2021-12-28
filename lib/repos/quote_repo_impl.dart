@@ -20,7 +20,7 @@ class QuoteRepoImpl with QuoteRepo {
 
   @override
   Future<List<Quote>> getQuotes(int page, int per_page) async {
-    var result = await ApiClient.client.getQuotes(page, per_page);
+    var result = await ApiClient.client.getQuotes(page, per_page, -1);
     return result;
   }
 
@@ -32,9 +32,9 @@ class QuoteRepoImpl with QuoteRepo {
 
   @override
   Future<List<Quote>> getQuotesByCategory(
-      int page, int per_page, int categoryID) {
-    // TODO: implement getQuotesByCategory
-    throw UnimplementedError();
+      int page, int per_page, int categoryID) async {
+    var result = await ApiClient.client.getQuotes(page, per_page, categoryID);
+    return result;
   }
 
   @override

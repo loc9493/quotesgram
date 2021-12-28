@@ -17,6 +17,9 @@ class QuoteViewModel with ChangeNotifier {
   Wallpaper? wallpaper;
   ViewMode viewMode = ViewMode.ListView;
   int selectedTab = 0;
+  int page = 1;
+  Category? category;
+  FilterItem filterItem = FilterItem.all;
   double wallpaperOpacity = 80;
   bool isLoading = false;
   TextStyle contentStyle = const TextStyle(fontSize: 25, color: Colors.white);
@@ -45,6 +48,11 @@ class QuoteViewModel with ChangeNotifier {
 
   setWallpaper(Wallpaper wallpaper) {
     this.wallpaper = wallpaper;
+    notifyListeners();
+  }
+
+  setFilterItem(FilterItem item) {
+    filterItem = item;
     notifyListeners();
   }
 
@@ -114,10 +122,18 @@ class QuoteViewModel with ChangeNotifier {
     setIsLoading(true);
     var result = await QuoteRepoImpl().getQuotes(page, per_page);
     if (result != null) {
+      if (page == 1) {
+        quotes.clear();
+      }
       quotes.addAll(result);
       notifyListeners();
     }
     setIsLoading(false);
+  }
+
+  loadMore() {
+    page = page + 1;
+    getQuotes(page, 10);
   }
 
   getAuthors() async {

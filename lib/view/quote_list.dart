@@ -8,18 +8,16 @@ import 'package:quotesgram/models/quote.dart';
 import 'package:quotesgram/screens/quote_screen.dart';
 import 'package:quotesgram/utils/Constant.dart';
 import 'package:quotesgram/view/quote_card.dart';
+import 'package:quotesgram/view_model/category_view_model.dart';
 import 'package:quotesgram/view_model/quote_view_model.dart';
 import 'package:tcard/tcard.dart';
 
-class CardHolder extends StatelessWidget {
-  const CardHolder({Key? key}) : super(key: key);
+class QuoteList extends StatelessWidget {
+  const QuoteList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<QuoteViewModel>(context).quotes;
-    var quoteVM = Provider.of<QuoteViewModel>(context);
-    var viewMode = Provider.of<QuoteViewModel>(context).viewMode;
-    return viewMode == ViewMode.ListView ? ListQuote() : Text("Grid");
+    return ListQuote();
   }
 }
 
@@ -28,8 +26,8 @@ class ListQuote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var quotes = Provider.of<QuoteViewModel>(context).quotes;
-    var vm = Provider.of<QuoteViewModel>(context);
+    var vm = Provider.of<CategoryViewModel>(context);
+    var quotes = Provider.of<CategoryViewModel>(context).quotes;
     final List<InkWell> quoteList = quotes
         .map((Quote quote) => InkWell(
               child: QuoteCell(quote: quote),
@@ -41,21 +39,25 @@ class ListQuote extends StatelessWidget {
             ))
         .toList();
     return LoadMore(
-      isFinish: quotes.length > 8000,
+      isFinish: quotes.length > 500,
       onLoadMore: () async {
         vm.loadMore();
         return true;
       },
       child: ListView.builder(
-          itemCount: quotes.length,
-          itemBuilder: (context, index) => InkWell(
-                child: QuoteCell(quote: quotes[index]),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => QuoteScreen(quote: quotes[index]),
-                    )),
-              )),
+        itemCount: quotes.length,
+        itemBuilder: (context, index) {
+          var quote = quotes[index];
+          return InkWell(
+            child: QuoteCell(quote: quote),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuoteScreen(quote: quote),
+                )),
+          );
+        },
+      ),
     );
   }
 }

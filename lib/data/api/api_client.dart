@@ -15,9 +15,17 @@ class ApiClient {
     return client;
   }
 
-  Future<List<Quote>> getQuotes(int page, int per_page) async {
+  Future<List<Quote>> getQuotes(int page, int per_page, int category) async {
     var url = Uri.http(baseUrl, "quote/quotes",
         {'page': page.toString(), 'per_page': per_page.toString()});
+    if (category >= 0) {
+      url = Uri.http(baseUrl, "quote/quotes", {
+        'page': page.toString(),
+        'per_page': per_page.toString(),
+        'category': category.toString()
+      });
+    }
+    print(url);
     var response = await apiClient.get(url);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body) as List<dynamic>;
@@ -63,8 +71,9 @@ class ApiClient {
   Future<List<Category>> getCategories() async {
     var url = Uri.http(
       baseUrl,
-      "quote/category",
+      "category/category",
     );
+    print(url);
     var response = await apiClient.get(url);
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body) as List<dynamic>;
