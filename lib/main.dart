@@ -8,6 +8,7 @@ import 'package:quotesgram/repos/user_repo_firebase_impl.dart';
 import 'package:quotesgram/screens/category_screen.dart';
 import 'package:quotesgram/screens/home_screen.dart';
 import 'package:quotesgram/screens/login_screen.dart';
+import 'package:quotesgram/utils/AdHelper.dart';
 import 'package:quotesgram/utils/Constant.dart';
 import 'package:quotesgram/view/bottom_bar.dart';
 import 'package:quotesgram/view/card_holder.dart';
@@ -18,12 +19,17 @@ import 'package:quotesgram/view_model/quote_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:quotesgram/view_model/user_view_model.dart';
 import 'firebase_options.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  MobileAds.instance.initialize();
+  AdHelper.homeBanner.load();
+  AdHelper.detailBanner.load();
+
   runApp(const MyApp());
 }
 
@@ -67,10 +73,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void _initAd() {
+    InterstitialAd _ad;
+    InterstitialAd.load(
+        adUnitId: AdHelper.interstialAdpubID(),
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (InterstitialAd ad) {
+            // Keep a reference to the ad so you can show it later.
+            var vm = Provider.of<QuoteViewModel>(context, listen: false);
+            vm.ad = ad;
+            _ad = ad;
+            _setupAdCallBack(ad);
+            print('new ad');
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            print('InterstitialAd failed to load: $error');
+          },
+        ));
+  }
+
+  void _setupAdCallBack(InterstitialAd ad) {
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('%ad onAdShowedFullScreenContent.'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        ad.dispose();
+        _initAd();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        ad.dispose();
+      },
+      onAdImpression: (InterstitialAd ad) => print('$ad impression occurred.'),
+    );
+  }
+
   void initState() {
     super.initState();
+    _initAd();
+
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       var vm = Provider.of<QuoteViewModel>(context, listen: false);
+
       vm.getCategories();
       vm.getQuotes(1, 20);
       vm.getWallpapers();

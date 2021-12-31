@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:quotesgram/models/author.dart';
 import 'package:quotesgram/models/category.dart';
 import 'package:quotesgram/models/quote.dart';
@@ -15,9 +16,11 @@ class QuoteViewModel with ChangeNotifier {
   List<Category> categories = [];
   List<Wallpaper> wallpapers = [];
   Wallpaper? wallpaper;
+  InterstitialAd? ad;
   ViewMode viewMode = ViewMode.ListView;
   int selectedTab = 0;
   int page = 1;
+  int didTapQuoteDetail = 0;
   bool canLoadMore = true;
   Category? category;
   FilterItem filterItem = FilterItem.all;
@@ -50,6 +53,18 @@ class QuoteViewModel with ChangeNotifier {
   setWallpaper(Wallpaper wallpaper) {
     this.wallpaper = wallpaper;
     notifyListeners();
+  }
+
+  setCountDidOpenQuoteDetail() {
+    didTapQuoteDetail += 1;
+    if (didTapQuoteDetail >= 5) {
+      didTapQuoteDetail = 0;
+    }
+    notifyListeners();
+  }
+
+  bool shouldOpenInterestialAd() {
+    return didTapQuoteDetail == 0;
   }
 
   setFilterItem(FilterItem item) {

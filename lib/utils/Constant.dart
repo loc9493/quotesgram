@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 enum CardConfig { Wallpaper, ContentText, AuthorText, Save, Share }
 enum FilterItem { all, top_views, top_likes, saved }
@@ -32,7 +35,7 @@ class Constant {
     'Thu Tu',
     'Tin Tuc',
   ];
-  
+
   static const ColorsList = [
     Colors.transparent,
     Colors.white,

@@ -12,11 +12,13 @@ class WallpaperSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     QuoteViewModel vm = Provider.of<QuoteViewModel>(context);
     return SizedBox(
-      height: 200,
+      height: 250,
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(
+              top: 20,
+            ),
             child: Row(
               children: [
                 const Text("Opacity", style: TextStyle(color: Colors.white)),
@@ -35,7 +37,9 @@ class WallpaperSlider extends StatelessWidget {
           ),
           Container(
             height: 120,
-            margin: const EdgeInsets.only(top: 20),
+            margin: const EdgeInsets.only(
+              top: 20,
+            ),
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: vm.wallpapers.length,

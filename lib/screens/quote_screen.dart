@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:quotesgram/models/quote.dart';
+import 'package:quotesgram/utils/AdHelper.dart';
 import 'package:quotesgram/utils/Constant.dart';
 import 'package:quotesgram/view/bottom_bar.dart';
 import 'package:quotesgram/view/quote_card.dart';
@@ -20,49 +22,58 @@ class QuoteScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              child: QuoteCard(quote: quote),
-            ),
-            Container(
-              child: SizedBox(
-                height: 150,
-                child: GridView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: Constant.CardConfigs.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1),
-                  itemBuilder: (context, index) => Container(
-                      margin: const EdgeInsets.all(8),
-                      child: InkWell(
-                        onTap: () => {
-                          handleCardConfig(
-                              Constant.CardConfigs[index], context, vm)
-                        },
-                        child: Card(
-                            color: Constant.Persian,
-                            elevation: 10,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Constant.CardConfigIcon(
-                                    Constant.CardConfigs[index]),
-                                Text(
-                                  Constant.CardConfigTitle(
-                                      Constant.CardConfigs[index]),
-                                  style: const TextStyle(
-                                      color: Constant.Crayola,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            )),
-                      )),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                child: QuoteCard(quote: quote),
+              ),
+              SizedBox(
+                height: 100,
+                child: AdWidget(
+                  ad: AdHelper.detailBanner,
                 ),
               ),
-            ),
-          ],
+              Container(
+                child: SizedBox(
+                  height: 150,
+                  child: GridView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: Constant.CardConfigs.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1),
+                    itemBuilder: (context, index) => Container(
+                        margin: const EdgeInsets.all(8),
+                        child: InkWell(
+                          onTap: () => {
+                            handleCardConfig(
+                                Constant.CardConfigs[index], context, vm)
+                          },
+                          child: Card(
+                              color: Constant.Persian,
+                              elevation: 10,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Constant.CardConfigIcon(
+                                      Constant.CardConfigs[index]),
+                                  Text(
+                                    Constant.CardConfigTitle(
+                                        Constant.CardConfigs[index]),
+                                    style: const TextStyle(
+                                        color: Constant.Crayola,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              )),
+                        )),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

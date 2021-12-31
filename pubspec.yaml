@@ -46,6 +46,7 @@ dependencies:
   gallery_saver: ^2.3.2
   fluttertoast: ^8.0.8
   share_plus: ^3.0.4
+  google_mobile_ads: ^1.0.1
 
 
 dev_dependencies:

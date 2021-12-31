@@ -30,16 +30,7 @@ class ListQuote extends StatelessWidget {
   Widget build(BuildContext context) {
     var quotes = Provider.of<QuoteViewModel>(context).quotes;
     var vm = Provider.of<QuoteViewModel>(context);
-    final List<InkWell> quoteList = quotes
-        .map((Quote quote) => InkWell(
-              child: QuoteCell(quote: quote),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => QuoteScreen(quote: quote),
-                  )),
-            ))
-        .toList();
+
     return LoadMore(
       isFinish: quotes.length > 8000,
       onLoadMore: () async {
@@ -53,11 +44,17 @@ class ListQuote extends StatelessWidget {
           itemCount: quotes.length,
           itemBuilder: (context, index) => InkWell(
                 child: QuoteCell(quote: quotes[index]),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => QuoteScreen(quote: quotes[index]),
-                    )),
+                onTap: () {
+                  if (vm.shouldOpenInterestialAd()) {
+                    vm.ad?.show();
+                  }
+                  vm.setCountDidOpenQuoteDetail();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => QuoteScreen(quote: quotes[index]),
+                      ));
+                },
               )),
     );
   }
