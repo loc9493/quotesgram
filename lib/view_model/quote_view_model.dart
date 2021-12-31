@@ -18,6 +18,7 @@ class QuoteViewModel with ChangeNotifier {
   ViewMode viewMode = ViewMode.ListView;
   int selectedTab = 0;
   int page = 1;
+  bool canLoadMore = true;
   Category? category;
   FilterItem filterItem = FilterItem.all;
   double wallpaperOpacity = 80;
@@ -134,6 +135,10 @@ class QuoteViewModel with ChangeNotifier {
   loadMore() {
     page = page + 1;
     getQuotes(page, 10);
+  }
+
+  bool shouldLoadMore() {
+    return !isLoading;
   }
 
   getAuthors() async {

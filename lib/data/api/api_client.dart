@@ -7,7 +7,8 @@ import 'dart:convert' as convert;
 import 'package:quotesgram/models/wallpaper.dart';
 
 class ApiClient {
-  static const baseUrl = "localhost:1337";
+  // static const baseUrl = "localhost:1337";
+  static const baseUrl = "quiet-earth-10140.herokuapp.com";
   static var client = ApiClient();
   var apiClient = http.Client();
 
@@ -16,10 +17,10 @@ class ApiClient {
   }
 
   Future<List<Quote>> getQuotes(int page, int per_page, int category) async {
-    var url = Uri.http(baseUrl, "quote/quotes",
+    var url = Uri.https(baseUrl, "quote/quotes",
         {'page': page.toString(), 'per_page': per_page.toString()});
     if (category >= 0) {
-      url = Uri.http(baseUrl, "quote/quotes", {
+      url = Uri.https(baseUrl, "quote/quotes", {
         'page': page.toString(),
         'per_page': per_page.toString(),
         'category': category.toString()
@@ -37,7 +38,7 @@ class ApiClient {
   }
 
   Future<List<Wallpaper>> getWallpaper() async {
-    var url = Uri.http(
+    var url = Uri.https(
       baseUrl,
       "wallpaper/wallpapers",
     );
@@ -54,7 +55,7 @@ class ApiClient {
   // https://bing.biturl.top/?resolution=1920&format=json&index=0&mkt=zh-CN
 
   Future<List<Author>> getAuthors() async {
-    var url = Uri.http(
+    var url = Uri.https(
       baseUrl,
       "quote/authors",
     );
@@ -69,7 +70,7 @@ class ApiClient {
   }
 
   Future<List<Category>> getCategories() async {
-    var url = Uri.http(
+    var url = Uri.https(
       baseUrl,
       "category/category",
     );

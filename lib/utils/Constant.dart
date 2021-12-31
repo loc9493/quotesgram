@@ -24,6 +24,15 @@ class Constant {
     CardConfig.AuthorText,
   ];
 
+  static const List<String> fonts = [
+    'MangCau',
+    'Sang Song',
+    'Thay Giao Nhe',
+    'Thoi Nay',
+    'Thu Tu',
+    'Tin Tuc',
+  ];
+  
   static const ColorsList = [
     Colors.transparent,
     Colors.white,

@@ -11,7 +11,7 @@ class TextEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     QuoteViewModel vm = Provider.of<QuoteViewModel>(context);
     return TextStyleEditor(
-        fonts: ['Roboto'],
+        fonts: Constant.fonts,
         paletteColors: Constant.ColorsList,
         textStyle: vm.getStyleForConfig(config),
         onTextStyleEdited: (p0) {

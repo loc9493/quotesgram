@@ -43,6 +43,9 @@ class ListQuote extends StatelessWidget {
     return LoadMore(
       isFinish: quotes.length > 8000,
       onLoadMore: () async {
+        if (!vm.shouldLoadMore()) {
+          return true;
+        }
         vm.loadMore();
         return true;
       },
