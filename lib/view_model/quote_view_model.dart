@@ -60,6 +60,7 @@ class QuoteViewModel with ChangeNotifier {
     if (didTapQuoteDetail >= 5) {
       didTapQuoteDetail = 0;
     }
+    print(didTapQuoteDetail);
     notifyListeners();
   }
 

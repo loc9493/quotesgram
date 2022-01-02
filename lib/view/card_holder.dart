@@ -46,6 +46,7 @@ class ListQuote extends StatelessWidget {
                 child: QuoteCell(quote: quotes[index]),
                 onTap: () {
                   if (vm.shouldOpenInterestialAd()) {
+                    print('show ad');
                     vm.ad?.show();
                   }
                   vm.setCountDidOpenQuoteDetail();

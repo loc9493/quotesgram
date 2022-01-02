@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomBar(),
       appBar: AppBar(
         centerTitle: false,
-        title: const Text('Quotesgram', textAlign: TextAlign.center),
+        title: const Text('Lời Hay Ý Đẹp', textAlign: TextAlign.center),
         actions: [],
       ),
       body: screens[vm.selectedTab],

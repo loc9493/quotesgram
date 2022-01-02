@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,10 +11,11 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var vm = Provider.of<QuoteViewModel>(context).categories;
+    var categories = Provider.of<QuoteViewModel>(context).categories;
+    var vm = Provider.of<QuoteViewModel>(context);
     var viewModel = Provider.of<CategoryViewModel>(context);
     return ListView.builder(
-      itemCount: vm.length,
+      itemCount: categories.length,
       // padding: const EdgeInsets.all(10),
       itemBuilder: (context, index) {
         return Container(
@@ -24,12 +23,16 @@ class CategoryScreen extends StatelessWidget {
             margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
             child: InkWell(
               onTap: () {
-                viewModel.setCategory(vm[index]);
+                if (vm.shouldOpenInterestialAd()) {
+                  vm.ad?.show();
+                }
+                vm.setCountDidOpenQuoteDetail();
+                viewModel.setCategory(categories[index]);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => CategoryDetail(
-                        category: vm[index],
+                        category: categories[index],
                       ),
                     ));
               },
@@ -38,7 +41,7 @@ class CategoryScreen extends StatelessWidget {
                   child: Stack(children: [
                     Positioned.fill(
                       child: CachedNetworkImage(
-                        imageUrl: vm[index].url(),
+                        imageUrl: categories[index].url(),
                         fit: BoxFit.fitWidth,
                       ),
                     ),
@@ -54,7 +57,7 @@ class CategoryScreen extends StatelessWidget {
                       children: [
                         const Padding(padding: EdgeInsets.all(10)),
                         Text(
-                          vm[index].name,
+                          categories[index].name,
                           style: const TextStyle(
                               color: Colors.white, fontSize: 19),
                         ),
