@@ -29,7 +29,7 @@ class QuoteScreen extends StatelessWidget {
                 child: QuoteCard(quote: quote),
               ),
               SizedBox(
-                height: 100,
+                height: 00,
                 child: AdWidget(
                   ad: AdHelper.detailBanner,
                 ),
