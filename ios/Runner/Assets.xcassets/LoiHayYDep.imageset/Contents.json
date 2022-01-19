@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Brown and Pink Minimal Icons Icon Set-2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Brown and Pink Minimal Icons Icon Set-1.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Brown and Pink Minimal Icons Icon Set.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

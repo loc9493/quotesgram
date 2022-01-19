@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       var vm = Provider.of<QuoteViewModel>(context, listen: false);
-
+      vm.getLocalQuotes();
       vm.getCategories();
       vm.getQuotes(1, 20);
       vm.getWallpapers();

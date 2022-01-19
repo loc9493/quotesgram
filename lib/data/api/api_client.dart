@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:quotesgram/models/author.dart';
 import 'package:quotesgram/models/category.dart';
@@ -8,12 +11,19 @@ import 'package:quotesgram/models/wallpaper.dart';
 
 class ApiClient {
   // static const baseUrl = "localhost:1337";
-  static const baseUrl = "quiet-earth-10140.herokuapp.com";
+  // static const baseUrl = "quiet-earth-10140.herokuapp.com";
+  static const baseUrl = "nhachutoan2018.kbvision.tv:6868";
   static var client = ApiClient();
   var apiClient = http.Client();
 
   static ApiClient sharedInstance() {
     return client;
+  }
+
+  Future<List<Quote>> readJsonQuotes() async {
+    final String response = await rootBundle.loadString('assets/temp.json');
+    var jsonResponse = convert.jsonDecode(response) as List<dynamic>;
+    return jsonResponse.map((e) => Quote.fromJson(e)).toList();
   }
 
   Future<List<Quote>> getQuotes(int page, int per_page, int category) async {

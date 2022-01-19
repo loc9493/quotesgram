@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:quotesgram/data/api/api_client.dart';
 import 'package:quotesgram/models/author.dart';
 import 'package:quotesgram/models/category.dart';
 import 'package:quotesgram/models/quote.dart';
@@ -37,6 +38,12 @@ class QuoteViewModel with ChangeNotifier {
 
   setWallpaperOpacity(double value) {
     wallpaperOpacity = value;
+    notifyListeners();
+  }
+
+  getLocalQuotes() async {
+    var listQuotes = await ApiClient().readJsonQuotes();
+    quotes = listQuotes;
     notifyListeners();
   }
 
